@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HTF2021
 {
@@ -12,16 +9,8 @@ namespace HTF2021
         {
             var numbers = new List<int>();
             var rnd = new Random();
-            for (int i = 0; i <= amount; i++)
-            {
-                numbers.Add(rnd.Next(min, max));
-            }
+            for (var i = 0; i <= amount; i++) numbers.Add(rnd.Next(min, max));
             return numbers;
         }
-
-        
-
-        
-
     }
 }

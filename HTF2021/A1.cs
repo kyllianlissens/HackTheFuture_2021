@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Json;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace HTF2021
 {
     internal static class A1
     {
+        private static readonly string testUrl = "api/path/1/easy/Sample";
+        private static readonly string productionUrl = "api/path/1/easy/Puzzle";
 
-        private static string testUrl = "api/path/1/easy/Sample";
-        private static string productionUrl = "api/path/1/easy/Puzzle";
-
-        private static readonly HTTPInstance clientInstance = new HTTPInstance();
+        private static readonly HTTPInstance clientInstance = new();
 
         internal static void LocalExecution()
         {
@@ -33,7 +30,6 @@ namespace HTF2021
             var testPostResponse = await clientInstance.client.PostAsJsonAsync<int>(testUrl, testSolution);
             var testPostResponseValue = await testPostResponse.Content.ReadAsStringAsync();
             Console.WriteLine($"Test endpoint response: {testPostResponseValue}");
-
         }
 
         internal static async Task ProductionExecution()
@@ -51,7 +47,7 @@ namespace HTF2021
         internal static int digitSum(int n)
         {
             if (n == 0) return 0;
-            return (n % 9 == 0) ? 9 : (n % 9);
+            return n % 9 == 0 ? 9 : n % 9;
         }
     }
 }

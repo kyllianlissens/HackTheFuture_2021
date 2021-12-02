@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HTF2021
 {
@@ -11,7 +7,8 @@ namespace HTF2021
         private static string testUrl = "api/path/2/hard/Sample";
         //private static string productionUrl = "api/path/2/hard/Puzzle";
 
-        private static readonly HTTPInstance clientInstance = new HTTPInstance();
+        private static readonly HTTPInstance clientInstance = new();
+
         internal static void LocalExecution()
         {
             Console.WriteLine("-Local Execution: \n");

@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Json;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace HTF2021
 {
     internal static class B2
     {
+        private static readonly string testUrl = "api/path/2/medium/Sample";
+        private static readonly string productionUrl = "api/path/2/medium/Puzzle";
 
-        private static string testUrl = "api/path/2/medium/Sample";
-        private static string productionUrl = "api/path/2/medium/Puzzle";
+        private static readonly HTTPInstance clientInstance = new();
 
-        private static readonly HTTPInstance clientInstance = new HTTPInstance();
         internal static void LocalExecution()
         {
             Console.WriteLine("-Local Execution: \n");
@@ -23,11 +19,9 @@ namespace HTF2021
             Console.WriteLine($"Test endpoint data: {testData}");
             var testSolution = RepeatingNumbers(testData.ToString());
             Console.WriteLine(testSolution);
-
-
         }
 
-        internal async static Task TestExecution()
+        internal static async Task TestExecution()
         {
             Console.WriteLine("-Test Execution: \n");
             var testData = await clientInstance.client.GetFromJsonAsync<double>(testUrl);
@@ -39,7 +33,7 @@ namespace HTF2021
             //Console.WriteLine(testPostResponseValue);
         }
 
-        internal async static Task ProductionExecution()
+        internal static async Task ProductionExecution()
         {
             Console.WriteLine("-Production Execution: \n");
             var testData = await clientInstance.client.GetStringAsync(productionUrl);
@@ -49,7 +43,6 @@ namespace HTF2021
             var testPostResponse = await clientInstance.client.PostAsJsonAsync(productionUrl, testSolution);
             var testPostResponseValue = await testPostResponse.Content.ReadAsStringAsync();
             Console.WriteLine($"Production endpoint response: {testPostResponseValue}");
-
         }
 
         private static int RepeatingNumbers(string data)
@@ -57,38 +50,28 @@ namespace HTF2021
             Dictionary<string, int> patterns = new();
             int repeats;
             string possible;
-            for (int i = 0; i < data.Length; i++)
+            for (var i = 0; i < data.Length; i++)
+            for (var j = 2; j + i < data.Length; j++)
             {
-                for (int j = 2; j + i < data.Length; j++)
-                {
-                    possible = data.Substring(i, j);
-                    repeats = 0;
-                    for (int k = 0; k <= data.Length - possible.Length; k++)
-                    {
-                        if (data.Substring(k, possible.Length) == possible)
-                        {
-                            repeats++;
-                        }
-                    }
-                    if (repeats > 1 && !patterns.ContainsKey(possible))
-                        patterns.Add(possible, repeats);
-                }
+                possible = data.Substring(i, j);
+                repeats = 0;
+                for (var k = 0; k <= data.Length - possible.Length; k++)
+                    if (data.Substring(k, possible.Length) == possible)
+                        repeats++;
+                if (repeats > 1 && !patterns.ContainsKey(possible))
+                    patterns.Add(possible, repeats);
             }
 
             string pattern = "";
-            int reps = 0;
+            var reps = 0;
             foreach (var i in patterns)
-            {
                 if (i.Value > reps)
                 {
                     reps = i.Value;
                     pattern = i.Key;
                 }
-            }
 
             return int.Parse(patterns.Count + pattern);
         }
     }
-
-
 }

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Json;
 
 namespace HTF2021
 {
@@ -17,6 +15,7 @@ namespace HTF2021
             return $"ID: {Id}, Direction: {Direction}, X: {X}, Y: {Y}";
         }
     }
+
     internal class A3Json
     {
         public List<string> Directions { get; set; }
@@ -27,21 +26,20 @@ namespace HTF2021
             return $"Start: {string.Join("; ", Directions)}";
         }
     }
+
     internal static class A3
     {
         private static string testUrl = "api/path/1/hard/Sample";
-        private static string productionUrl = "api/path/1/hard/Puzzle";
+        private static readonly string productionUrl = "api/path/1/hard/Puzzle";
 
-        private static readonly HTTPInstance clientInstance = new HTTPInstance();
+        private static readonly HTTPInstance clientInstance = new();
 
         internal static void LocalExecution()
         {
-            
         }
 
         internal static async Task TestExecution()
         {
-            
         }
 
         internal static async Task ProductionExecution()
@@ -67,16 +65,14 @@ namespace HTF2021
             Node[,] nodes = new Node[5, 5];
 
             foreach (var tile in productionData.Tiles)
-            {
-                nodes[tile.X - 1, tile.Y - 1] = new Node { Coords = (tile.X - 1, tile.Y - 1), ID = tile.Id, Direction = tile.Direction };
-            }
+                nodes[tile.X - 1, tile.Y - 1] = new Node
+                    { Coords = (tile.X - 1, tile.Y - 1), ID = tile.Id, Direction = tile.Direction };
 
             Node home = null;
-            for (var y = 0; y < 5 ; y++)
+            for (var y = 0; y < 5; y++)
             {
-                for (var x = 0; x < 5 ; x++)
+                for (var x = 0; x < 5; x++)
                 {
-
                     var node = nodes[x, y];
 
                     Console.Write($"({node.ID}, {node.Direction} )");
@@ -89,81 +85,54 @@ namespace HTF2021
                     var direction = directions[node.Direction];
                     MarkNodes(nodes, node, direction);
                 }
+
                 Console.WriteLine("\n");
             }
 
-            var pathOrder = FindPath(nodes[0,0], home, new List<Node>());
+            var pathOrder = FindPath(nodes[0, 0], home, new List<Node>());
 
             Console.WriteLine($"Finished: {string.Join(", ", pathOrder)}");
-
-
         }
 
 
         internal static List<Node> FindPath(Node currentNode, Node goal, List<Node> walkedNodes)
         {
-            if(currentNode.Coords.Equals(goal.Coords))
+            if (currentNode.Coords.Equals(goal.Coords))
             {
                 walkedNodes.Add(currentNode);
                 return walkedNodes;
             }
-            else if(walkedNodes.Contains(currentNode))
-            {
-                return null;
-            }
 
-            else if(currentNode.Parents.Count == 0)
-            {
+            if (walkedNodes.Contains(currentNode))
                 return null;
-            }
-            else if (walkedNodes.Count > 25 )
-            {
+
+            if (currentNode.Parents.Count == 0)
                 return null;
-            }
-            else
-            {
-                walkedNodes.Add(currentNode);
-            }
-            
+            if (walkedNodes.Count > 25)
+                return null;
+            walkedNodes.Add(currentNode);
 
-            
-
-            
 
             foreach (var child in currentNode.Parents)
             {
                 var result = FindPath(child, goal, walkedNodes);
-                if (result == null){
-                    continue;
-                }
-                else if (result.Count >= 23)
-                {
+                if (result == null) continue;
 
-                    foreach (var a in result)
-                    {
-                        Console.WriteLine($"{a},");
-                    }
+                if (result.Count >= 23)
+                {
+                    foreach (var a in result) Console.WriteLine($"{a},");
                     Console.WriteLine("b");
                 }
                 else
                 {
                     Console.WriteLine("a");
                 }
-
             }
-
-            
 
 
             return null;
-
-
-
-
-         
-
         }
-      
+
 
         internal static void MarkNodes(Node[,] nodes, Node node, (int x, int y) direction)
         {
@@ -178,7 +147,6 @@ namespace HTF2021
 
 
                 node.Parents.Add(nodes[x, y]);
-
             }
         }
     }
