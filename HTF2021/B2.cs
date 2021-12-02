@@ -10,7 +10,7 @@ namespace HTF2021
     {
 
         private static string testUrl = "api/path/2/medium/Sample";
-        private static string productionUrl = "api/path/2/medium/Puzzle";
+        //private static string productionUrl = "api/path/2/medium/Puzzle";
 
         private static readonly HTTPInstance clientInstance = new HTTPInstance();
         internal static void LocalExecution()

@@ -8,7 +8,7 @@ namespace HTF2021
     internal static class A3
     {
         private static string testUrl = "api/path/1/hard/Sample";
-        private static string productionUrl = "api/path/1/hard/Puzzle";
+        //private static string productionUrl = "api/path/1/hard/Puzzle";
 
         private static readonly HTTPInstance clientInstance = new HTTPInstance();
 
