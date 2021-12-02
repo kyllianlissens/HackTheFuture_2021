@@ -63,10 +63,10 @@ namespace HTF2021
                 }
 
                 var direction = directions[type];
-                Utilities.MarkNodes(nodes, node, direction);
+                MarkNodes(nodes, node, direction);
             }
 
-            var path = Utilities.FindPath(start, home);
+            var path = FindPath(start, home);
 
             Console.WriteLine($"Path IDs: {string.Join("; ", path)}");
             Console.ReadLine();
@@ -89,6 +89,42 @@ namespace HTF2021
         internal static void ProductionExecution()
         {
             Console.WriteLine("-Production Execution: \n");
+        }
+
+        internal static List<int> FindPath((int x, int y) target, Node node)
+        {
+            if (target.x == node.Coords.x && Equals(target.y, node.Coords.y))
+                return new List<int> { node.ID };
+
+            node.Visited = true;
+
+            foreach (var parent in node.Parents)
+            {
+                if (parent.Visited)
+                    continue;
+
+                var path = FindPath(target, parent);
+                if (path == null) continue;
+                path.Add(node.ID);
+                return path;
+            }
+
+            return null;
+        }
+
+        internal static void MarkNodes(Node[,] nodes, Node node, (int x, int y) direction)
+        {
+            var (x, y) = node.Coords;
+            while (true)
+            {
+                x += direction.x;
+                y += direction.y;
+
+                if (x >= nodes.GetLength(0) || y >= nodes.GetLength(1) || x < 0 || y < 0)
+                    return;
+
+                nodes[x, y].Parents.Add(node);
+            }
         }
     }
 }

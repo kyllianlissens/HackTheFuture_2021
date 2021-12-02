@@ -18,8 +18,8 @@ namespace HTF2021
         internal static void LocalExecution()
         {
             Console.WriteLine("-Local Execution: \n");
-            Console.WriteLine($"Simple calculation algorithm: {String.Join("; ", Utilities.simpleElevatorAlgorithm(9))} \n");
-            Console.WriteLine($"Future calculation algorithm: {String.Join("; ", Utilities.futureElevatorAlgorithm(9))} \n");
+            Console.WriteLine($"Simple calculation algorithm: {String.Join("; ", simpleElevatorAlgorithm(9))} \n");
+            Console.WriteLine($"Future calculation algorithm: {String.Join("; ", futureElevatorAlgorithm(9))} \n");
 
         }
 
@@ -40,6 +40,58 @@ namespace HTF2021
         internal static void ProductionExecution()
         {
             Console.WriteLine("-Production Execution: \n");
+        }
+
+
+        internal static List<int> futureElevatorAlgorithm(int endFloor)
+        {
+            var floors = new List<int>();
+            var currentFloor = 0;
+            var stepCount = 1;
+
+            while (currentFloor != endFloor)
+            {
+                if ((currentFloor + stepCount) == endFloor)
+                {
+                    currentFloor += stepCount;
+                }
+                else if ((currentFloor + stepCount + stepCount + 1) > endFloor)
+                {
+                    currentFloor -= stepCount;
+                }
+                else
+                {
+                    currentFloor += stepCount;
+                }
+
+                ++stepCount;
+                floors.Add(currentFloor);
+
+            }
+            return floors;
+        }
+        internal static List<int> simpleElevatorAlgorithm(int endFloor)
+        {
+            var floors = new List<int>();
+            var currentFloor = 0;
+            var stepCount = 1;
+
+            while (currentFloor != endFloor)
+            {
+                if ((currentFloor + stepCount) > endFloor)
+                {
+                    currentFloor -= stepCount;
+                }
+                else
+                {
+                    currentFloor += stepCount;
+                }
+
+                ++stepCount;
+                floors.Add(currentFloor);
+
+            }
+            return floors;
         }
     }
 }

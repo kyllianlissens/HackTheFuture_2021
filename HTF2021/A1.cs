@@ -20,7 +20,7 @@ namespace HTF2021
             Console.WriteLine("-Local Execution: \n");
             var randomList = Utilities.randomIntegerList(100, 1, 100);
             Console.WriteLine($"Random generated list: {string.Join("; ", randomList)} \n");
-            Console.WriteLine($"digitSum of list: {Utilities.digitSum(randomList.Sum())} \n");
+            Console.WriteLine($"digitSum of list: {digitSum(randomList.Sum())} \n");
         }
 
         internal static async void TestExecution()
@@ -28,7 +28,7 @@ namespace HTF2021
             Console.WriteLine("-Test Execution: \n");
             var testData = await clientInstance.client.GetFromJsonAsync<List<int>>(testUrl);
             Console.WriteLine($"Test endpoint data: {string.Join("; ", testData)}");
-            var testSolution = Utilities.digitSum(testData.Sum());
+            var testSolution = digitSum(testData.Sum());
             Console.WriteLine($"digitSum of test data: {testSolution}");
             var testPostResponse = await clientInstance.client.PostAsJsonAsync<int>(testUrl, testSolution);
             var testPostResponseValue = await testPostResponse.Content.ReadAsStringAsync();
@@ -39,6 +39,12 @@ namespace HTF2021
         internal static async void ProductionExecution()
         {
             Console.WriteLine("-Production Execution: \n");
+        }
+
+        internal static int digitSum(int n)
+        {
+            if (n == 0) return 0;
+            return (n % 9 == 0) ? 9 : (n % 9);
         }
     }
 }
