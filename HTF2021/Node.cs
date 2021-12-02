@@ -13,5 +13,10 @@ namespace HTF2021
         public int Direction;
         public List<Node> Parents = new List<Node>();
         public bool Visited;
+
+        public override string ToString()
+        {
+            return $"{ID}";
+        }
     }
 }

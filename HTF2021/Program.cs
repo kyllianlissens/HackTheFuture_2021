@@ -30,19 +30,19 @@ namespace HTF2021 // Note: actual namespace depends on the project name.
             //await A3.TestExecution();
             await A3.ProductionExecution();
 
-            /*Console.WriteLine("#B-1 \n");
+            Console.WriteLine("#B-1 \n Done \n");
 
-            B1.LocalExecution();
-            B1.TestExecution();
+            //B1.LocalExecution();
+            //B1.TestExecution();
             //B1.ProductionExecution();
 
-            Console.WriteLine("#B-2 \n");
+            Console.WriteLine("#B-2 \n Done \n");
 
-            B2.LocalExecution();
-            B2.TestExecution();
-            B2.ProductionExecution();
+            //B2.LocalExecution();
+            //B2.TestExecution();
+            ..B2.ProductionExecution();
 
-            Console.WriteLine("#B-3 \n");
+            /*Console.WriteLine("#B-3 \n");
 
             B3.LocalExecution();
             B3.TestExecution();

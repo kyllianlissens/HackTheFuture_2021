@@ -23,9 +23,7 @@ namespace HTF2021
             Console.WriteLine($"digitSum of list: {digitSum(randomList.Sum())} \n");
         }
 
-        internal static async 
-        Task
-TestExecution()
+        internal static async Task TestExecution()
         {
             Console.WriteLine("-Test Execution: \n");
             var testData = await clientInstance.client.GetFromJsonAsync<List<int>>(testUrl);
@@ -38,9 +36,7 @@ TestExecution()
 
         }
 
-        internal static async 
-        Task
-ProductionExecution()
+        internal static async Task ProductionExecution()
         {
             Console.WriteLine("-Production Execution: \n");
             var productionData = await clientInstance.client.GetFromJsonAsync<List<int>>(productionUrl);
