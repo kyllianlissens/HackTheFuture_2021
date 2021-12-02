@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace HTF2021
+{
+    public class Node
+    {
+        public (int x, int y) Coords;
+        public int ID;
+        public List<Node> Parents = new List<Node>();
+        public bool Visited;
+    }
+}
