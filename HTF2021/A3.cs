@@ -29,7 +29,7 @@ namespace HTF2021
             Node[,] nodes = new Node[rows.Length, cols];
 
 
-            var idCounter = 0;
+            var idCounter = 1;
             for (var y = 0; y < cols; y++)
             for (var x = 0; x < rows.Length; x++)
             {
