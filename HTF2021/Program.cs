@@ -25,10 +25,10 @@ namespace HTF2021 // Note: actual namespace depends on the project name.
             //await A2.ProductionExecution();
 
             Console.WriteLine("#A-3 \n");
-
+            //await B2.ProductionExecution();
             //A3.LocalExecution();
-            await A3.TestExecution();
-            //A3.ProductionExecution();
+            //await A3.TestExecution();
+            await A3.ProductionExecution();
 
             /*Console.WriteLine("#B-1 \n");
 
@@ -40,7 +40,7 @@ namespace HTF2021 // Note: actual namespace depends on the project name.
 
             B2.LocalExecution();
             B2.TestExecution();
-            //B2.ProductionExecution();
+            B2.ProductionExecution();
 
             Console.WriteLine("#B-3 \n");
 

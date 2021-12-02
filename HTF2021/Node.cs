@@ -10,6 +10,7 @@ namespace HTF2021
     {
         public (int x, int y) Coords;
         public int ID;
+        public int Direction;
         public List<Node> Parents = new List<Node>();
         public bool Visited;
     }
