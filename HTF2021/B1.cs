@@ -1,32 +1,38 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http.Json;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace HTF2021
 {
+
     internal class B1Json
     {
         public string Date1 { get; set; }
         public string Date2 { get; set; }
-    }
 
+    }
     internal static class B1
     {
-        private static readonly string testUrl = "api/path/2/easy/Sample";
-        private static readonly string productionUrl = "api/path/2/easy/Puzzle";
 
-        private static readonly HTTPInstance clientInstance = new();
+        private static string testUrl = "api/path/2/easy/Sample";
+        private static string productionUrl = "api/path/2/easy/Puzzle";
+
+        private static readonly HTTPInstance clientInstance = new HTTPInstance();
 
         internal static void LocalExecution()
         {
             Console.WriteLine("-Local Execution: \n");
-            B1Json b1Json = new();
+            B1Json b1Json = new B1Json();
             b1Json.Date1 = "15hh29DD2028YYYY51mm27ss10MM";
             b1Json.Date2 = "11mm1691YYYY16hh14DD01ss06MM";
             var localExecution = calculateDifference(b1Json.Date1, b1Json.Date2);
             Console.WriteLine(localExecution);
         }
 
-        internal static async Task TestExecution()
+        internal async static Task TestExecution()
         {
             Console.WriteLine("-Test Execution: \n");
             var testData = await clientInstance.client.GetFromJsonAsync<B1Json>(testUrl);
@@ -38,7 +44,7 @@ namespace HTF2021
             Console.WriteLine(testPostResponseValue);
         }
 
-        internal static async Task ProductionExecution()
+        internal async static Task ProductionExecution()
         {
             Console.WriteLine("-Production Execution: \n");
             var testData = await clientInstance.client.GetFromJsonAsync<B1Json>(productionUrl);
@@ -55,9 +61,10 @@ namespace HTF2021
 
         internal static DateTime parseRandomDate(string date)
         {
-            var seconds_int = 0;
-            var minutes_int = 0;
-            var hour_int = 0;
+
+            int seconds_int = 0;
+            int minutes_int = 0;
+            int hour_int = 0;
             if (date.Contains("ss"))
             {
                 string[] temp_seconds = date.Split("ss");
@@ -76,29 +83,29 @@ namespace HTF2021
 
             string[] temp_day = date.Split("DD");
             string day = temp_day[0].Substring(temp_day[0].Length - 2);
-            var day_int = int.Parse(day);
+            int day_int = int.Parse(day);
 
             string[] temp_month = date.Split("MM");
             string month = temp_month[0].Substring(temp_month[0].Length - 2);
-            var month_int = int.Parse(month);
+            int month_int = int.Parse(month);
 
             string[] temp_year = date.Split("YYYY");
             string year = temp_year[0].Substring(temp_year[0].Length - 4);
-            var year_int = int.Parse(year);
+            int year_int = int.Parse(year);
 
 
-            var dateTime = new DateTime(year_int, month_int, day_int, hour_int, minutes_int, seconds_int);
+            DateTime dateTime = new DateTime(year_int, month_int, day_int, hour_int, minutes_int, seconds_int);
 
             return dateTime;
         }
 
         internal static double calculateDifference(string temp_date1, string temp_date2)
         {
-            var date1 = parseRandomDate(temp_date1);
-            var date2 = parseRandomDate(temp_date2);
-            var diff = date1.Subtract(date2);
+            DateTime date1 = parseRandomDate(temp_date1);
+            DateTime date2 = parseRandomDate(temp_date2);
+            TimeSpan diff = date1.Subtract(date2);
 
-            var seconds = diff.TotalSeconds;
+            double seconds = diff.TotalSeconds;
             if (seconds < 0)
                 seconds *= -1;
             return seconds;
