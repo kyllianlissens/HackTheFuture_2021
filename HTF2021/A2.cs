@@ -7,47 +7,71 @@ using System.Threading.Tasks;
 
 namespace HTF2021
 {
+    internal class A2Json
+    {
+        public int Start { get; set; }
+        public int Destination { get; set; }
+
+        public override string ToString()
+        {
+            return $"Start: {Start}, Destination: {Destination}";
+        }
+    }
+
     internal static class A2
     {
 
         private static string testUrl = "api/path/1/medium/Sample";
-        //private static string productionUrl = "api/path/1/medium/Puzzle";
+        private static string productionUrl = "api/path/1/medium/Puzzle";
 
         private static readonly HTTPInstance clientInstance = new HTTPInstance();
 
         internal static void LocalExecution()
         {
             Console.WriteLine("-Local Execution: \n");
-            Console.WriteLine($"Simple calculation algorithm: {String.Join("; ", simpleElevatorAlgorithm(9))} \n");
-            Console.WriteLine($"Future calculation algorithm: {String.Join("; ", futureElevatorAlgorithm(9))} \n");
+            Console.WriteLine($"Simple calculation algorithm: {String.Join("; ", simpleElevatorAlgorithm(0, 9))} \n");
+            Console.WriteLine($"Future calculation algorithm: {String.Join("; ", futureElevatorAlgorithm(0, 9))} \n");
 
         }
 
-        internal static async void TestExecution()
+        internal static async Task TestExecution()
         {
             Console.WriteLine("-Test Execution: \n");
-            var testData = await clientInstance.client.GetFromJsonAsync<List<string>>(testUrl);
-            Console.WriteLine($"Test endpoint data: {string.Join("; ", testData)}");
+            var testData = await clientInstance.client.GetFromJsonAsync<A2Json>(testUrl);
+            Console.WriteLine($"Test endpoint data: {testData}");
 
-            //TODO: Solution & process
+            var testSimpleSolution = simpleElevatorAlgorithm(testData.Start, testData.Destination);
+            var testFutureSolution = futureElevatorAlgorithm(testData.Start, testData.Destination);
+            Console.WriteLine($"Test simple solution: {string.Join(", ", testSimpleSolution.ToArray())}");
+            Console.WriteLine($"Test future solution: {string.Join(", ", testFutureSolution.ToArray())}");
 
-
-            //var testPostResponse = await clientInstance.client.PostAsJsonAsync<int>(testUrl, testSolution);
-            //var testPostResponseValue = await testPostResponse.Content.ReadAsStringAsync();
-            //Console.WriteLine($"Test endpoint response: {testPostResponseValue}");
+            var testPostResponse = await clientInstance.client.PostAsJsonAsync<int[]>(testUrl, testSimpleSolution.ToArray());
+            var testPostResponseValue = await testPostResponse.Content.ReadAsStringAsync();
+            Console.WriteLine($"Test endpoint response: {testPostResponseValue}");
         }
 
-        internal static void ProductionExecution()
+        internal static async Task ProductionExecution()
         {
             Console.WriteLine("-Production Execution: \n");
+
+            var testData = await clientInstance.client.GetFromJsonAsync<A2Json>(productionUrl);
+            Console.WriteLine($"Production endpoint data: {testData}");
+
+            var testSimpleSolution = simpleElevatorAlgorithm(testData.Start, testData.Destination);
+            Console.WriteLine($"Production simple solution {testSimpleSolution.Count}: {string.Join(", ", testSimpleSolution.ToArray())}");
+
+            var testPostResponse = await clientInstance.client.PostAsJsonAsync<int[]>(productionUrl, testSimpleSolution.ToArray());
+            var testPostResponseValue = await testPostResponse.Content.ReadAsStringAsync();
+            Console.WriteLine($"Production endpoint response: {testPostResponseValue}");
         }
 
 
-        internal static List<int> futureElevatorAlgorithm(int endFloor)
+        internal static List<int> futureElevatorAlgorithm(int beginFloor, int endFloor)
         {
             var floors = new List<int>();
-            var currentFloor = 0;
+            var currentFloor = beginFloor;
             var stepCount = 1;
+            floors.Add(currentFloor);
 
             while (currentFloor != endFloor)
             {
@@ -70,12 +94,12 @@ namespace HTF2021
             }
             return floors;
         }
-        internal static List<int> simpleElevatorAlgorithm(int endFloor)
+        internal static List<int> simpleElevatorAlgorithm(int beginFloor, int endFloor)
         {
             var floors = new List<int>();
-            var currentFloor = 0;
+            var currentFloor = beginFloor;
             var stepCount = 1;
-
+            floors.Add(currentFloor);
             while (currentFloor != endFloor)
             {
                 if ((currentFloor + stepCount) > endFloor)

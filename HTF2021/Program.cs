@@ -9,28 +9,28 @@ namespace HTF2021 // Note: actual namespace depends on the project name.
 
       
 
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             
-            Console.WriteLine("#A-1 \n");
+            Console.WriteLine("#A-1 \n Done \n");
 
-            A1.LocalExecution();
-            A1.TestExecution();
-            //A1.ProductionExecution();
+            //A1.LocalExecution();
+            //await A1.TestExecution();
+            //await A1.ProductionExecution();
 
-            Console.WriteLine("#A-2 \n");
+            Console.WriteLine("#A-2 \n Done \n");
 
-            A2.LocalExecution();
-            A2.TestExecution();
-            //A2.ProductionExecution();
+            //A2.LocalExecution();
+            //await A2.TestExecution();
+            //await A2.ProductionExecution();
 
             Console.WriteLine("#A-3 \n");
 
-            A3.LocalExecution();
-            A3.TestExecution();
+            //A3.LocalExecution();
+            await A3.TestExecution();
             //A3.ProductionExecution();
 
-            Console.WriteLine("#B-1 \n");
+            /*Console.WriteLine("#B-1 \n");
 
             B1.LocalExecution();
             B1.TestExecution();
@@ -46,7 +46,7 @@ namespace HTF2021 // Note: actual namespace depends on the project name.
 
             B3.LocalExecution();
             B3.TestExecution();
-            //B3.ProductionExecution();
+            //B3.ProductionExecution();*/
         }
     }
 }

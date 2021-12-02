@@ -5,6 +5,28 @@ using System.Net.Http.Json;
 
 namespace HTF2021
 {
+    internal class A3Json_Tile
+    {
+        public int Id { get; set; }
+        public int Direction { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
+
+        public override string ToString()
+        {
+            return $"ID: {Id}, Direction: {Direction}, X: {X}, Y: {Y}";
+        }
+    }
+    internal class A3Json
+    {
+        public List<string> Directions { get; set; }
+        public List<A3Json_Tile> Tiles { get; set; }
+
+        public override string ToString()
+        {
+            return $"Start: {string.Join("; ", Directions)}";
+        }
+    }
     internal static class A3
     {
         private static string testUrl = "api/path/1/hard/Sample";
@@ -72,11 +94,12 @@ namespace HTF2021
             Console.ReadLine();
         }
 
-        internal static async void TestExecution()
+        internal static async Task TestExecution()
         {
             Console.WriteLine("-Test Execution: \n");
-            var testData = await clientInstance.client.GetFromJsonAsync<List<string>>(testUrl);
-            Console.WriteLine($"Test endpoint data: {string.Join("; ", testData)}");
+            var testData = await clientInstance.client.GetFromJsonAsync<A3Json>(testUrl);
+            Console.WriteLine($"Test endpoint data: {testData}");
+
 
             //TODO: Solution & process
 

@@ -11,7 +11,7 @@ namespace HTF2021
     {
 
         private static string testUrl = "api/path/1/easy/Sample";
-        //private static string productionUrl = "api/path/1/easy/Puzzle";
+        private static string productionUrl = "api/path/1/easy/Puzzle";
 
         private static readonly HTTPInstance clientInstance = new HTTPInstance();
 
@@ -23,7 +23,9 @@ namespace HTF2021
             Console.WriteLine($"digitSum of list: {digitSum(randomList.Sum())} \n");
         }
 
-        internal static async void TestExecution()
+        internal static async 
+        Task
+TestExecution()
         {
             Console.WriteLine("-Test Execution: \n");
             var testData = await clientInstance.client.GetFromJsonAsync<List<int>>(testUrl);
@@ -36,9 +38,18 @@ namespace HTF2021
 
         }
 
-        internal static async void ProductionExecution()
+        internal static async 
+        Task
+ProductionExecution()
         {
             Console.WriteLine("-Production Execution: \n");
+            var productionData = await clientInstance.client.GetFromJsonAsync<List<int>>(productionUrl);
+            Console.WriteLine($"Test endpoint data: {string.Join("; ", productionData)}");
+            var productionSolution = digitSum(productionData.Sum());
+            Console.WriteLine($"digitSum of test data {productionData.Sum()}: {productionSolution}");
+            var testPostResponse = await clientInstance.client.PostAsJsonAsync<int>(productionUrl, productionSolution);
+            var testPostResponseValue = await testPostResponse.Content.ReadAsStringAsync();
+            Console.WriteLine($"Test endpoint response: {testPostResponseValue}");
         }
 
         internal static int digitSum(int n)
